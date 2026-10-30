@@ -109,14 +109,6 @@ python3 -m unittest discover -s tests_lite -v
 לקייסים, להכרעות ולסנפשוטים נשארות בסביבת המחקר המקומית ואינן נכללות
 במאגר הציבורי.
 
-דוגמה לאיסוף מקומי מוגבל:
-
-```bash
-python3 -m aletheia_lite collect \
-  --config config/case001_engineering_pilot.json \
-  --db data/aletheia_lite.db
-```
-
 ## נתונים, זכויות יוצרים ושחזור
 
 - אין להעלות ל־GitHub טקסט מלא של כתבות, סנפשוטים או קובצי PDF ללא רישיון
