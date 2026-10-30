@@ -1,0 +1,34 @@
+{
+  "adapter_version": "case001-en-v6",
+  "language": "en",
+  "shared_prompt_version": "case001-article-analysis-v1.0.12",
+  "measurement_schema": "measurement/article_measurement_schema.json",
+  "instruction": "Analyze English wording directly. Preserve evidence spans exactly as printed and set every reviewer_translation_he field to null.",
+  "attribution_cues": [
+    "according to",
+    "said",
+    "officials say",
+    "reported",
+    "appears to",
+    "likely",
+    "alleged",
+    "denied"
+  ],
+  "language_specific_rules": [
+    "A headline ending in 'officials say' or using a colon normally attributes the proposition; do not automatically code it as independent outlet verification.",
+    "Distinguish 'the evidence shows' from 'officials said the evidence shows'. The latter remains attributed unless the outlet supplies and evaluates the evidence itself.",
+    "Modal terms such as 'appears', 'likely', 'may', and 'plausible' materially lower certainty and must not be flattened in the Hebrew reviewer translation.",
+    "An editor's note, correction, or update notice is part of the outlet voice and may be relevant to claim ownership, but T4 still requires the full publisher-slot trajectory.",
+    "For N5, inspect newsroom words outside quotations first; charged words spoken by a source are not positive N5 evidence unless the outlet repeats or endorses them in its own voice."
+  ],
+  "examples": [
+    {
+      "text": "Palestinian officials say an Israeli strike caused the blast",
+      "interpretation": "ATTRIBUTED_CLAIM; the sentence establishes what officials said, not that the outlet verified Israeli causation."
+    },
+    {
+      "text": "The available visual evidence is consistent with a failed rocket",
+      "interpretation": "OUTLET_ASSERTION or HEDGED_INFERENCE depending on the surrounding analysis and modal wording."
+    }
+  ]
+}

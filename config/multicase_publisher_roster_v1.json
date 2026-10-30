@@ -1,0 +1,149 @@
+{
+  "roster_version": "multicase-publisher-roster-v1.5",
+  "methodology_version": "case-generator-contract-v1.1",
+  "slots": [
+    {
+      "slot_id": "domestic-israel-hayom",
+      "group": "DOMESTIC_ISRAELI",
+      "language": "he",
+      "editorial_profile": "ISRAELI_RIGHT_NATIONAL_MAINSTREAM",
+      "primary": {
+        "source_id": "israel-hayom-hebrew",
+        "name": "Israel Hayom",
+        "domain": "israelhayom.co.il"
+      },
+      "substitutes": [
+        {
+          "source_id": "srugim-hebrew-substitute",
+          "name": "Srugim",
+          "domain": "srugim.co.il"
+        }
+      ]
+    },
+    {
+      "slot_id": "domestic-mekomit",
+      "group": "DOMESTIC_ISRAELI",
+      "language": "he",
+      "editorial_profile": "ISRAELI_LEFT_TO_CENTER_LEFT",
+      "primary": {
+        "source_id": "mekomit-hebrew",
+        "name": "Local Call",
+        "domain": "mekomit.co.il"
+      },
+      "substitutes": [
+        {
+          "source_id": "zman-yisrael-hebrew-substitute",
+          "name": "Zman Yisrael",
+          "domain": "zman.co.il"
+        },
+        {
+          "source_id": "davar-hebrew-substitute",
+          "name": "Davar",
+          "domain": "davar1.co.il"
+        }
+      ]
+    },
+    {
+      "slot_id": "domestic-n12",
+      "group": "DOMESTIC_ISRAELI",
+      "language": "he",
+      "editorial_profile": "ISRAELI_CENTER_MAINSTREAM_BROADCAST",
+      "primary": {
+        "source_id": "n12-hebrew",
+        "name": "N12",
+        "domain": "mako.co.il"
+      },
+      "substitutes": []
+    },
+    {
+      "slot_id": "western-guardian",
+      "group": "WESTERN_INTERNATIONAL",
+      "language": "en",
+      "editorial_profile": "WESTERN_CENTER_LEFT_MAINSTREAM",
+      "primary": {
+        "source_id": "guardian-english",
+        "name": "The Guardian",
+        "domain": "theguardian.com"
+      },
+      "substitutes": []
+    },
+    {
+      "slot_id": "western-associated-press",
+      "group": "WESTERN_INTERNATIONAL",
+      "language": "en",
+      "editorial_profile": "WESTERN_CENTER_FACTUAL_NEWS",
+      "primary": {
+        "source_id": "associated-press-english",
+        "name": "Associated Press",
+        "domain": "apnews.com"
+      },
+      "substitutes": [
+        {
+          "source_id": "clickorlando-ap-wire-substitute",
+          "name": "ClickOrlando (AP wire)",
+          "domain": "clickorlando.com"
+        }
+      ]
+    },
+    {
+      "slot_id": "western-washington-post",
+      "group": "WESTERN_INTERNATIONAL",
+      "language": "en",
+      "editorial_profile": "WESTERN_CENTER_LEFT_MAINSTREAM",
+      "primary": {
+        "source_id": "washington-post-english",
+        "name": "The Washington Post",
+        "domain": "washingtonpost.com"
+      },
+      "substitutes": [
+        {
+          "source_id": "foreign-policy-english-substitute",
+          "name": "Foreign Policy",
+          "domain": "foreignpolicy.com"
+        }
+      ]
+    },
+    {
+      "slot_id": "regional-al-jazeera-arabic",
+      "group": "REGIONAL_ARABIC",
+      "language": "ar",
+      "editorial_profile": "ARAB_REGIONAL_PAN_ARAB_QATARI",
+      "primary": {
+        "source_id": "al-jazeera-arabic",
+        "name": "Al Jazeera Arabic",
+        "domain": "aljazeera.net"
+      },
+      "substitutes": []
+    },
+    {
+      "slot_id": "regional-bbc-arabic",
+      "group": "REGIONAL_ARABIC",
+      "language": "ar",
+      "editorial_profile": "ARAB_REGIONAL_WESTERN_NETWORK",
+      "primary": {
+        "source_id": "bbc-arabic",
+        "name": "BBC Arabic",
+        "domain": "bbc.com"
+      },
+      "substitutes": []
+    },
+    {
+      "slot_id": "regional-al-araby-tv",
+      "group": "REGIONAL_ARABIC",
+      "language": "ar",
+      "editorial_profile": "ARAB_REGIONAL_PAN_ARAB_QATARI",
+      "primary": {
+        "source_id": "alaraby-arabic",
+        "name": "Al Araby TV",
+        "domain": "alaraby.com"
+      },
+      "substitutes": [
+        {
+          "source_id": "al-jazeera-media-institute-arabic-substitute",
+          "name": "Al Jazeera Media Institute",
+          "domain": "institute.aljazeera.net"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "frame_version": "october-war-buzz-frame-v1",
+  "methodology_version": "case-generator-contract-v1.2",
+  "description_he": "גילוי דו-שלבי: תחילה זיהוי שיאים חריגים בנפח סיקור מנורמל בשלוש זירות שנקבעו מראש, ורק אחר כך זיהוי האירוע הקונקרטי סביב השיא. אחריות ותוצאות ניקוד אינן משתתפות בדירוג.",
+  "strategy": "normalized-attention-peaks",
+  "max_peaks_per_lane_window": 2,
+  "baseline_radius_days": 14,
+  "local_maximum_radius_days": 2,
+  "minimum_peak_separation_days": 14,
+  "minimum_peak_lift": 1.25,
+  "minimum_window_percentile": 0.75,
+  "minimum_peak_article_count": 50,
+  "article_window_days_each_side": 1,
+  "max_leads_per_provider_per_peak": 90,
+  "max_seed_clusters_per_peak": 2,
+  "max_total_model_annotations": 12,
+  "max_leads_per_annotation": 18,
+  "lanes": [
+    {
+      "lane_id": "gaza-hostages-humanitarian",
+      "label_he": "עזה, חטופים והסדר הומניטרי",
+      "timeline_terms_en": ["Israel Gaza", "Israel Hamas", "Gaza hostages ceasefire", "Rafah offensive", "Gaza humanitarian aid"],
+      "terms": {
+        "he": ["ישראל עזה", "ישראל חמאס", "חטופים הפסקת אש", "מבצע רפיח", "סיוע הומניטרי עזה"],
+        "en": ["Israel Gaza", "Israel Hamas", "Gaza hostages ceasefire", "Rafah offensive", "Gaza humanitarian aid"],
+        "ar": ["إسرائيل غزة", "إسرائيل حماس", "الرهائن وقف إطلاق النار", "عملية رفح", "المساعدات الإنسانية غزة"]
+      }
+    },
+    {
+      "lane_id": "regional-escalation",
+      "label_he": "התרחבות אזורית והשתנות מאזן הכוח",
+      "timeline_terms_en": ["Israel Hezbollah", "Israel Iran", "Israel Houthis", "Israel Lebanon war", "Iran attack Israel"],
+      "terms": {
+        "he": ["ישראל חיזבאללה", "ישראל איראן", "ישראל חות'ים", "לבנון מלחמה ישראל", "תקיפה איראנית ישראל"],
+        "en": ["Israel Hezbollah", "Israel Iran", "Israel Houthis", "Israel Lebanon war", "Iran attack Israel"],
+        "ar": ["إسرائيل حزب الله", "إسرائيل إيران", "إسرائيل الحوثيين", "حرب لبنان إسرائيل", "هجوم إيراني إسرائيل"]
+      }
+    },
+    {
+      "lane_id": "legal-diplomatic-order",
+      "label_he": "סדר משפטי ודיפלומטי",
+      "timeline_terms_en": ["Israel ICJ", "Israel ICC"],
+      "terms": {
+        "he": ["ישראל בית הדין הבינלאומי", "ישראל צווי מעצר", "ישראל האו״ם עזה", "הכרה במדינה פלסטינית", "ישראל ארצות הברית מלחמה"],
+        "en": ["Israel ICJ", "Israel ICC warrants", "Israel UN Gaza", "Palestinian state recognition", "Israel United States Gaza war"],
+        "ar": ["إسرائيل محكمة العدل الدولية", "إسرائيل مذكرات اعتقال", "إسرائيل الأمم المتحدة غزة", "الاعتراف بالدولة الفلسطينية", "إسرائيل الولايات المتحدة حرب غزة"]
+      }
+    }
+  ],
+  "entity_aliases": {
+    "israel": ["ישראל", "Israel", "إسرائيل"],
+    "gaza": ["עזה", "Gaza", "غزة"],
+    "hamas": ["חמאס", "Hamas", "حماس"],
+    "hezbollah": ["חיזבאללה", "Hezbollah", "حزب الله"],
+    "iran": ["איראן", "Iran", "إيران"],
+    "houthis": ["חות'ים", "חות׳ים", "Houthis", "الحوثيين"],
+    "hostages": ["חטופים", "hostages", "الرهائن"],
+    "ceasefire": ["הפסקת אש", "ceasefire", "وقف إطلاق النار"],
+    "humanitarian_aid": ["סיוע הומניטרי", "humanitarian aid", "المساعدات الإنسانية"],
+    "netanyahu": ["נתניהו", "Netanyahu", "نتنياهو"],
+    "idf": ["צה״ל", "צבא ישראל", "IDF", "Israeli military", "الجيش الإسرائيلي"],
+    "rafah": ["רפיח", "Rafah", "رفح"],
+    "lebanon": ["לבנון", "Lebanon", "لبنان"],
+    "nasrallah": ["נסראללה", "Nasrallah", "نصر الله"],
+    "haniyeh": ["הנייה", "הניאה", "Haniyeh", "هنية"],
+    "sinwar": ["סינוואר", "Sinwar", "السنوار"],
+    "icj": ["בית הדין הבינלאומי לצדק", "ICJ", "محكمة العدل الدولية"],
+    "icc": ["בית הדין הפלילי הבינלאומי", "ICC", "المحكمة الجنائية الدولية"],
+    "united_nations": ["האו״ם", "United Nations", "الأمم المتحدة"],
+    "palestinian_state": ["מדינה פלסטינית", "Palestinian state", "الدولة الفلسطينية"]
+  },
+  "windows": [
+    {"window_id": "WAR-2023H2-2024Q1", "window_start": "2023-10-07", "window_end": "2024-03-31"},
+    {"window_id": "WAR-2024Q2Q3", "window_start": "2024-04-01", "window_end": "2024-09-30"},
+    {"window_id": "WAR-2024Q4-2025Q1", "window_start": "2024-10-01", "window_end": "2025-03-31"},
+    {"window_id": "WAR-2025Q2Q3", "window_start": "2025-04-01", "window_end": "2025-09-30"},
+    {"window_id": "WAR-2025Q4-2026Q1", "window_start": "2025-10-01", "window_end": "2026-03-31"},
+    {"window_id": "WAR-2026Q2Q3", "window_start": "2026-04-01", "window_end": "2026-09-30"}
+  ]
+}

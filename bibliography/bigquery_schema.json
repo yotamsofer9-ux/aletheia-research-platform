@@ -1,0 +1,17 @@
+[
+  {"name": "source_id", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "title", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "authors_or_organization", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "publication_year", "type": "INTEGER", "mode": "NULLABLE"},
+  {"name": "source_type", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "quality_tier", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "bibliography_status", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "url", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "doi", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "used_for", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "case_id", "type": "STRING", "mode": "NULLABLE"},
+  {"name": "first_used_on", "type": "DATE", "mode": "REQUIRED"},
+  {"name": "accessed_on", "type": "DATE", "mode": "REQUIRED"},
+  {"name": "quality_notes", "type": "STRING", "mode": "REQUIRED"},
+  {"name": "citation_text", "type": "STRING", "mode": "REQUIRED"}
+]

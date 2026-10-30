@@ -1,0 +1,439 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aletheia.local/schemas/case-generator-contracts-v1.schema.json",
+  "title": "Aletheia case-generator contract bundle v1",
+  "$ref": "#/$defs/CaseGeneratorFixture",
+  "$defs": {
+    "Sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "Language": {
+      "enum": ["he", "en", "ar"]
+    },
+    "SourceGroup": {
+      "enum": [
+        "DOMESTIC_ISRAELI",
+        "WESTERN_INTERNATIONAL",
+        "REGIONAL_ARABIC"
+      ]
+    },
+    "ScopeRelation": {
+      "enum": [
+        "CORE",
+        "DIRECT_SPILLOVER",
+        "EXTERNAL_INDIRECT",
+        "PREWAR_FORMATIVE"
+      ]
+    },
+    "ResponsibilityClass": {
+      "enum": [
+        "ISRAEL",
+        "NON_ISRAEL_ACTOR",
+        "SHARED_OR_CHAINED",
+        "UNRESOLVED",
+        "PROVISIONAL"
+      ]
+    },
+    "EvidenceClarity": {
+      "enum": ["HIGH", "PARTIAL", "UNRESOLVED"]
+    },
+    "CaseState": {
+      "enum": [
+        "PROPOSED",
+        "AWAITING_TOPIC_APPROVAL",
+        "BASKET_DISCOVERY",
+        "AWAITING_BASKET_APPROVAL",
+        "READY_TO_RUN",
+        "RUNNING",
+        "AWAITING_ADJUDICATION",
+        "FINALIZING",
+        "CLOSED",
+        "PAUSED",
+        "FAILED",
+        "REJECTED"
+      ]
+    },
+    "EvidenceLead": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider_id",
+        "source_name",
+        "url",
+        "title",
+        "published_at",
+        "language"
+      ],
+      "properties": {
+        "provider_id": {"type": "string", "minLength": 1},
+        "source_name": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "format": "uri"},
+        "title": {"type": "string", "minLength": 1},
+        "published_at": {
+          "anyOf": [
+            {"type": "string", "format": "date"},
+            {"type": "string", "format": "date-time"}
+          ]
+        },
+        "language": {"$ref": "#/$defs/Language"}
+      }
+    },
+    "CaseCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "version",
+        "candidate_hash",
+        "title",
+        "neutral_summary",
+        "window_start",
+        "window_end",
+        "scope_relation",
+        "occurred_after_2023_10_07",
+        "responsibility_class",
+        "evidence_clarity",
+        "war_nexus_rationale",
+        "evidence_leads",
+        "proposed_keywords",
+        "coverage_estimate",
+        "sample_balance_impact",
+        "state",
+        "methodology_version"
+      ],
+      "properties": {
+        "candidate_id": {"type": "string", "pattern": "^CAND-[A-Z0-9-]+$"},
+        "version": {"type": "integer", "minimum": 1},
+        "candidate_hash": {"$ref": "#/$defs/Sha256"},
+        "title": {"type": "string", "minLength": 1},
+        "neutral_summary": {"type": "string", "minLength": 1},
+        "window_start": {"type": "string", "format": "date"},
+        "window_end": {"type": "string", "format": "date"},
+        "scope_relation": {"$ref": "#/$defs/ScopeRelation"},
+        "occurred_after_2023_10_07": {"type": "boolean"},
+        "responsibility_class": {"$ref": "#/$defs/ResponsibilityClass"},
+        "evidence_clarity": {"$ref": "#/$defs/EvidenceClarity"},
+        "unresolved_hypotheses": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "war_nexus_rationale": {"type": "string", "minLength": 1},
+        "turning_point_rationale": {"type": "string"},
+        "transformative_dimensions": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "MILITARY_PHASE",
+              "ACTOR_LEADERSHIP",
+              "DIPLOMATIC_ORDER",
+              "LEGAL_ORDER",
+              "HUMANITARIAN_ORDER",
+              "HOSTAGE_OR_CEASEFIRE_REGIME",
+              "REGIONAL_ESCALATION"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "evidence_leads": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"$ref": "#/$defs/EvidenceLead"}
+        },
+        "proposed_keywords": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["he", "en", "ar"],
+          "properties": {
+            "he": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+            "en": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+            "ar": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+          }
+        },
+        "coverage_estimate": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["he", "en", "ar"],
+          "properties": {
+            "he": {"type": "integer", "minimum": 0},
+            "en": {"type": "integer", "minimum": 0},
+            "ar": {"type": "integer", "minimum": 0}
+          }
+        },
+        "sample_balance_impact": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["fills_slot", "rationale"],
+          "properties": {
+            "fills_slot": {"type": "string", "minLength": 1},
+            "rationale": {"type": "string", "minLength": 1}
+          }
+        },
+        "selection_evidence": {"type": "object"},
+        "state": {
+          "enum": ["PROPOSED", "AWAITING_TOPIC_APPROVAL", "REJECTED"]
+        },
+        "methodology_version": {"enum": ["case-generator-contract-v1.0", "case-generator-contract-v1.1", "case-generator-contract-v1.2"]}
+      }
+    },
+    "CaseManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "candidate_id",
+        "title",
+        "window_start",
+        "window_end",
+        "scope_relation",
+        "responsibility_class",
+        "evidence_clarity",
+        "research_purpose",
+        "sample_slot",
+        "keywords",
+        "target_articles",
+        "minimum_articles",
+        "topic_approval_hash",
+        "methodology_version",
+        "max_project_cost_nis",
+        "state"
+      ],
+      "properties": {
+        "case_id": {"type": "string", "pattern": "^CASE-[0-9]{3}(?:-[A-Z0-9-]+)?$"},
+        "candidate_id": {"type": "string", "pattern": "^CAND-[A-Z0-9-]+$"},
+        "title": {"type": "string", "minLength": 1},
+        "window_start": {"type": "string", "format": "date"},
+        "window_end": {"type": "string", "format": "date"},
+        "scope_relation": {"$ref": "#/$defs/ScopeRelation"},
+        "responsibility_class": {"$ref": "#/$defs/ResponsibilityClass"},
+        "evidence_clarity": {"$ref": "#/$defs/EvidenceClarity"},
+        "research_purpose": {"type": "string", "minLength": 1},
+        "sample_slot": {"type": "string", "minLength": 1},
+        "keywords": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["he", "en", "ar"],
+          "properties": {
+            "he": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+            "en": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+            "ar": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+          }
+        },
+        "target_articles": {"const": 27},
+        "minimum_articles": {"const": 25},
+        "topic_approval_hash": {"$ref": "#/$defs/Sha256"},
+        "methodology_version": {"enum": ["case-generator-contract-v1.0", "case-generator-contract-v1.1", "case-generator-contract-v1.2"]},
+        "max_project_cost_nis": {"type": "number", "exclusiveMinimum": 0, "maximum": 100},
+        "state": {"$ref": "#/$defs/CaseState"}
+      }
+    },
+    "BasketArticle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "article_id",
+        "publisher_slot",
+        "source_id",
+        "source_name",
+        "source_group",
+        "language",
+        "editorial_profile",
+        "sample_phase",
+        "url",
+        "canonical_url",
+        "title",
+        "published_at",
+        "snapshot_ref",
+        "snapshot_hash",
+        "replacement_kind",
+        "requires_human_approval"
+      ],
+      "properties": {
+        "article_id": {"type": "string", "minLength": 1},
+        "publisher_slot": {"type": "string", "minLength": 1},
+        "source_id": {"type": "string", "minLength": 1},
+        "source_name": {"type": "string", "minLength": 1},
+        "source_group": {"$ref": "#/$defs/SourceGroup"},
+        "language": {"$ref": "#/$defs/Language"},
+        "editorial_profile": {"type": "string", "minLength": 1},
+        "sample_phase": {"enum": ["INITIAL_REPORT", "EARLY_UPDATE", "LATER_INVESTIGATION"]},
+        "url": {"type": "string", "format": "uri"},
+        "canonical_url": {"type": "string", "format": "uri"},
+        "title": {"type": "string", "minLength": 1},
+        "published_at": {
+          "anyOf": [
+            {"type": "string", "format": "date"},
+            {"type": "string", "format": "date-time"}
+          ]
+        },
+        "snapshot_ref": {"type": "string", "minLength": 1},
+        "snapshot_hash": {"$ref": "#/$defs/Sha256"},
+        "replacement_kind": {"enum": ["NONE", "SAME_OUTLET", "SIMILAR_OUTLET"]},
+        "substitute_for_source_id": {"type": ["string", "null"]},
+        "requires_human_approval": {"type": "boolean"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"replacement_kind": {"const": "SIMILAR_OUTLET"}}},
+          "then": {
+            "required": ["substitute_for_source_id"],
+            "properties": {
+              "requires_human_approval": {"const": true},
+              "substitute_for_source_id": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        {
+          "if": {"properties": {"replacement_kind": {"enum": ["NONE", "SAME_OUTLET"]}}},
+          "then": {"properties": {"requires_human_approval": {"const": false}}}
+        }
+      ]
+    },
+    "ArticleBasketVersion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "basket_id",
+        "case_id",
+        "version",
+        "basket_hash",
+        "status",
+        "created_at",
+        "change_reason",
+        "articles"
+      ],
+      "properties": {
+        "basket_id": {"type": "string", "minLength": 1},
+        "case_id": {"type": "string", "pattern": "^CASE-[0-9]{3}(?:-[A-Z0-9-]+)?$"},
+        "version": {"type": "integer", "minimum": 1},
+        "basket_hash": {"$ref": "#/$defs/Sha256"},
+        "status": {"enum": ["DRAFT", "AWAITING_APPROVAL", "APPROVED", "SUPERSEDED", "REJECTED"]},
+        "created_at": {"type": "string", "format": "date-time"},
+        "change_reason": {"type": "string", "minLength": 1},
+        "articles": {
+          "type": "array",
+          "minItems": 25,
+          "maxItems": 27,
+          "items": {"$ref": "#/$defs/BasketArticle"}
+        }
+      }
+    },
+    "HumanGateDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_id",
+        "gate",
+        "target_hash",
+        "decision",
+        "actor",
+        "recorded_at",
+        "rationale",
+        "idempotency_key"
+      ],
+      "properties": {
+        "decision_id": {"type": "string", "minLength": 1},
+        "case_id": {
+          "oneOf": [
+            {"type": "string", "pattern": "^CASE-[0-9]{3}(?:-[A-Z0-9-]+)?$"},
+            {"type": "null"}
+          ]
+        },
+        "candidate_id": {"type": "string", "pattern": "^CAND-[A-Z0-9-]+$"},
+        "gate": {"enum": ["TOPIC", "BASKET"]},
+        "target_hash": {"$ref": "#/$defs/Sha256"},
+        "decision": {"enum": ["APPROVE", "REJECT", "REQUEST_CHANGES"]},
+        "actor": {"type": "string", "minLength": 1},
+        "recorded_at": {"type": "string", "format": "date-time"},
+        "rationale": {"type": "string", "minLength": 1},
+        "idempotency_key": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"gate": {"const": "TOPIC"}}},
+          "then": {"required": ["candidate_id"]}
+        },
+        {
+          "if": {"properties": {"gate": {"const": "BASKET"}}},
+          "then": {
+            "required": ["case_id"],
+            "properties": {"case_id": {"type": "string"}}
+          }
+        }
+      ]
+    },
+    "RunCheckpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "checkpoint_id",
+        "case_id",
+        "stage",
+        "status",
+        "completed_units",
+        "total_units",
+        "cost_nis",
+        "peak_rss_mb",
+        "artifact_refs",
+        "recorded_at",
+        "idempotency_key"
+      ],
+      "properties": {
+        "checkpoint_id": {"type": "string", "minLength": 1},
+        "case_id": {"type": "string", "pattern": "^CASE-[0-9]{3}(?:-[A-Z0-9-]+)?$"},
+        "stage": {"enum": ["COLLECTION", "ANCHORS", "ANALYSIS", "SECOND_REVIEW", "ADJUDICATION", "FINALIZATION", "CLOUD_SYNC", "DASHBOARD"]},
+        "status": {"enum": ["PENDING", "RUNNING", "COMPLETE", "FAILED", "PAUSED"]},
+        "completed_units": {"type": "integer", "minimum": 0},
+        "total_units": {"type": "integer", "minimum": 0},
+        "cost_nis": {"type": "number", "minimum": 0, "maximum": 100},
+        "peak_rss_mb": {"type": "number", "minimum": 0},
+        "artifact_refs": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "recorded_at": {"type": "string", "format": "date-time"},
+        "failure_reason": {"type": ["string", "null"]},
+        "requires_adjudication": {"type": "boolean"},
+        "summary": {"type": "string"},
+        "idempotency_key": {"type": "string", "minLength": 1}
+      }
+    },
+    "SelectionAuditRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_id",
+        "candidate_id",
+        "action",
+        "reason",
+        "balance_impact",
+        "recorded_at",
+        "methodology_version"
+      ],
+      "properties": {
+        "record_id": {"type": "string", "minLength": 1},
+        "candidate_id": {"type": "string", "pattern": "^CAND-[A-Z0-9-]+$"},
+        "action": {"enum": ["INCLUDED", "REJECTED", "SUPERSEDED"]},
+        "reason": {"type": "string", "minLength": 1},
+        "balance_impact": {"type": "string", "minLength": 1},
+        "recorded_at": {"type": "string", "format": "date-time"},
+        "methodology_version": {"enum": ["case-generator-contract-v1.0", "case-generator-contract-v1.1", "case-generator-contract-v1.2"]}
+      }
+    },
+    "CaseGeneratorFixture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fixture_version",
+        "candidate",
+        "topic_decision",
+        "manifest",
+        "basket"
+      ],
+      "properties": {
+        "fixture_version": {"const": "case-generator-offline-fixture-v1"},
+        "candidate": {"$ref": "#/$defs/CaseCandidate"},
+        "topic_decision": {"$ref": "#/$defs/HumanGateDecision"},
+        "manifest": {"$ref": "#/$defs/CaseManifest"},
+        "basket": {"$ref": "#/$defs/ArticleBasketVersion"}
+      }
+    }
+  }
+}

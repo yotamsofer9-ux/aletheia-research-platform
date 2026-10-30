@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aletheia.local/schemas/anchor-record-0.1.json",
+  "title": "Aletheia time-indexed factual anchor",
+  "description": "A proposition and its human-reviewed epistemic assessments over time.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "anchor_id",
+    "case_id",
+    "family",
+    "proposition_type",
+    "canonical_proposition",
+    "assessments"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.1"},
+    "anchor_id": {"type": "string", "pattern": "^[A-Z0-9-]+$"},
+    "case_id": {"type": "string", "minLength": 1},
+    "family": {
+      "enum": [
+        "IMPACT_AND_DAMAGE",
+        "CAUSE_AND_MECHANISM",
+        "ACTOR_RESPONSIBILITY",
+        "CASUALTY_ESTIMATE",
+        "EVIDENCE_AND_PROVENANCE"
+      ]
+    },
+    "proposition_type": {
+      "enum": [
+        "DIRECT_OBSERVATION",
+        "REPORTED_ESTIMATE",
+        "CAUSAL_HYPOTHESIS",
+        "RESPONSIBILITY_ATTRIBUTION",
+        "EVIDENCE_EXISTENCE",
+        "EVIDENCE_AUTHENTICITY",
+        "EVIDENCE_INTERPRETATION"
+      ]
+    },
+    "canonical_proposition": {"type": "string", "minLength": 10},
+    "scope_notes": {"type": "string"},
+    "legacy_seed_refs": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true
+    },
+    "assessments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "assessment_id",
+          "as_of",
+          "epistemic_status",
+          "confidence",
+          "basis_summary",
+          "evidence_refs",
+          "review_status"
+        ],
+        "properties": {
+          "assessment_id": {"type": "string", "minLength": 1},
+          "as_of": {"$ref": "#/$defs/temporal_reference"},
+          "valid_until": {
+            "oneOf": [
+              {"type": "null"},
+              {"$ref": "#/$defs/temporal_reference"}
+            ]
+          },
+          "epistemic_status": {
+            "enum": ["SUPPORTED", "CONTRADICTED", "DISPUTED", "UNRESOLVED"]
+          },
+          "confidence": {"enum": ["LOW", "MEDIUM", "HIGH"]},
+          "basis_summary": {"type": "string", "minLength": 1},
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "source_id",
+                "relationship",
+                "evidence_summary",
+                "publicly_available_at"
+              ],
+              "properties": {
+                "source_id": {"type": "string", "minLength": 1},
+                "relationship": {
+                  "enum": ["SUPPORTS", "CONTRADICTS", "CONTEXT", "LIMITS"]
+                },
+                "evidence_summary": {"type": "string", "minLength": 1},
+                "publicly_available_at": {
+                  "$ref": "#/$defs/temporal_reference"
+                },
+                "locator": {"type": ["string", "null"]},
+                "independence_group": {"type": ["string", "null"]}
+              }
+            }
+          },
+          "supersedes_assessment_id": {"type": ["string", "null"]},
+          "review_status": {
+            "enum": [
+              "DRAFT",
+              "MODEL_APPROVED",
+              "HUMAN_OVERRIDE",
+              "HUMAN_APPROVED",
+              "REJECTED"
+            ]
+          },
+          "reviewed_by": {"type": ["string", "null"]},
+          "reviewed_at": {
+            "oneOf": [
+              {"type": "null"},
+              {"$ref": "#/$defs/temporal_reference"}
+            ]
+          },
+          "review_notes": {"type": "string"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "temporal_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "precision"],
+      "properties": {
+        "value": {"type": "string"},
+        "precision": {"enum": ["DATE", "DATETIME"]}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"precision": {"const": "DATE"}},
+            "required": ["precision"]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "format": "date",
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "format": "date-time",
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

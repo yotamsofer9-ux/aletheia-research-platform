@@ -1,0 +1,12 @@
+{
+  "adapter_version": "frame-en-v1",
+  "language": "en",
+  "shared_prompt_version": "case002-frame-intensity-v0.1.0",
+  "instruction": "Analyze the English wording directly. Copy every evidence span exactly and provide a faithful Hebrew reviewer translation in reviewer_translation_he.",
+  "rules": [
+    "Keep propositions introduced by 'said', 'according to', 'officials say', or similar wording attributed to their speaker.",
+    "A quotation selected for the headline is editorially prominent but does not turn the quoted proposition into the outlet's independent factual assertion; mark it HEADLINE_SELECTED_QUOTE.",
+    "Charged language inside a source quotation can reveal a frame cue, but high editorial intensity requires headline prominence, repetition, or newsroom adoption.",
+    "Do not score the mere presence of a topic. Score the salience, explicitness, and reinforcement of each framing function."
+  ]
+}

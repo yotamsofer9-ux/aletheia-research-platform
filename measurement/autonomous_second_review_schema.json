@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Aletheia autonomous appellate ballot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["protocol_version", "document_id", "decisions"],
+  "properties": {
+    "protocol_version": {
+      "const": "case001-autonomous-appellate-review-v1"
+    },
+    "document_id": {"type": "string", "minLength": 1},
+    "decisions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "dilemma_id",
+          "selection",
+          "proposed_score",
+          "proposed_na_reason",
+          "confidence",
+          "evidence_sufficiency",
+          "addressed_issue_tags",
+          "exact_quote_used",
+          "anchor_refs",
+          "rationale_he",
+          "residual_risks"
+        ],
+        "properties": {
+          "dilemma_id": {"type": "string", "minLength": 1},
+          "selection": {
+            "enum": ["POSITION_A", "POSITION_B", "OTHER", "ABSTAIN"]
+          },
+          "proposed_score": {
+            "oneOf": [
+              {"type": "integer", "minimum": 0, "maximum": 4},
+              {"type": "null"}
+            ]
+          },
+          "proposed_na_reason": {
+            "oneOf": [{"type": "string", "minLength": 1}, {"type": "null"}]
+          },
+          "confidence": {"enum": ["LOW", "MEDIUM", "HIGH"]},
+          "evidence_sufficiency": {
+            "enum": ["INSUFFICIENT", "PARTIAL", "SUFFICIENT"]
+          },
+          "addressed_issue_tags": {
+            "type": "array",
+            "items": {"type": "string"},
+            "uniqueItems": true
+          },
+          "exact_quote_used": {
+            "oneOf": [{"type": "string", "minLength": 1}, {"type": "null"}]
+          },
+          "anchor_refs": {
+            "type": "array",
+            "items": {"type": "string"},
+            "uniqueItems": true
+          },
+          "rationale_he": {"type": "string", "minLength": 1, "maxLength": 900},
+          "residual_risks": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "ANCHOR_SCOPE_UNRESOLVED",
+                "SOURCE_VOICE_UNRESOLVED",
+                "COUNTEREVIDENCE_SCOPE_UNRESOLVED",
+                "TRANSLATION_UNCERTAINTY",
+                "PRIVILEGED_ACCESS_UNRESOLVED",
+                "VISUAL_EVIDENCE_UNAVAILABLE",
+                "RULEBOOK_AMBIGUITY",
+                "OTHER"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "adapter_version": "case001-he-v6",
+  "language": "he",
+  "shared_prompt_version": "case001-article-analysis-v1.0.12",
+  "measurement_schema": "measurement/article_measurement_schema.json",
+  "instruction": "Analyze Hebrew wording directly. Preserve every evidence span exactly as printed and set reviewer_translation_he to null.",
+  "attribution_cues": [
+    "לטענת",
+    "לדברי",
+    "מסר כי",
+    "לפי",
+    "העריך כי",
+    "הכחיש",
+    "ייתכן",
+    "ככל הנראה"
+  ],
+  "language_specific_rules": [
+    "A headline in the form 'צה״ל: X' normally attributes X to the IDF; it is not automatically the outlet's independent verification.",
+    "An unqualified declarative headline such as 'X גרמה לפיצוץ' normally carries the outlet's voice even if attribution appears only later in the body.",
+    "Words such as 'טבח', 'שקר', 'תעמולה', and 'מחבלים ברברים' must be assigned to the quoted speaker when clearly attributed; editorial repetition, headline placement, or endorsement may still affect N4 or N5.",
+    "Do not treat grammatical gender, omitted subjects, or common Hebrew headline compression as certainty without reading the surrounding sentence.",
+    "For N5, inspect newsroom words outside quotations first. A phrase such as 'דיווחים שקריים' in narration may count even if a harsher phrase inside a politician's quote does not."
+  ],
+  "examples": [
+    {
+      "text": "צה״ל: הג׳יהאד אחראי לירי",
+      "interpretation": "ATTRIBUTED_CLAIM with speaker IDF unless the article independently endorses it elsewhere."
+    },
+    {
+      "text": "הג׳יהאד אחראי לירי",
+      "interpretation": "OUTLET_ASSERTION when presented without attribution or qualification."
+    }
+  ]
+}

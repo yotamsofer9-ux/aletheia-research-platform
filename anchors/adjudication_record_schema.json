@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aletheia.local/schemas/anchor-adjudication-0.1.json",
+  "title": "Aletheia factual-anchor adjudication",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "adjudication_id",
+    "case_id",
+    "anchor_id",
+    "assessment_id",
+    "outcome",
+    "decided_at",
+    "decided_by",
+    "basis_category",
+    "rationale",
+    "preserved_model_review_refs",
+    "evidence_source_ids",
+    "resulting_epistemic_status",
+    "resulting_confidence"
+  ],
+  "properties": {
+    "schema_version": {"const": "0.1"},
+    "adjudication_id": {"type": "string", "minLength": 1},
+    "case_id": {"type": "string", "minLength": 1},
+    "anchor_id": {"type": "string", "minLength": 1},
+    "assessment_id": {"type": "string", "minLength": 1},
+    "outcome": {
+      "enum": [
+        "MODEL_APPROVED",
+        "HUMAN_OVERRIDE",
+        "NEEDS_MORE_EVIDENCE",
+        "EXCLUDED"
+      ]
+    },
+    "decided_at": {"$ref": "#/$defs/temporal_reference"},
+    "decided_by": {"type": "string", "minLength": 1},
+    "basis_category": {
+      "enum": [
+        "PUBLIC_INSPECTABLE_EVIDENCE",
+        "NON_PUBLIC_KNOWLEDGE",
+        "METHODOLOGICAL_JUDGMENT",
+        "MODEL_REVIEW_ONLY"
+      ]
+    },
+    "rationale": {"type": "string", "minLength": 20},
+    "preserved_model_review_refs": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "evidence_source_ids": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "resulting_epistemic_status": {
+      "oneOf": [
+        {"type": "null"},
+        {"enum": ["SUPPORTED", "CONTRADICTED", "DISPUTED", "UNRESOLVED"]}
+      ]
+    },
+    "resulting_confidence": {
+      "oneOf": [
+        {"type": "null"},
+        {"enum": ["LOW", "MEDIUM", "HIGH"]}
+      ]
+    },
+    "notes": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"outcome": {"const": "HUMAN_OVERRIDE"}}},
+      "then": {
+        "properties": {
+          "basis_category": {
+            "enum": [
+              "PUBLIC_INSPECTABLE_EVIDENCE",
+              "NON_PUBLIC_KNOWLEDGE",
+              "METHODOLOGICAL_JUDGMENT"
+            ]
+          },
+          "resulting_epistemic_status": {
+            "enum": ["SUPPORTED", "CONTRADICTED", "DISPUTED", "UNRESOLVED"]
+          },
+          "resulting_confidence": {"enum": ["LOW", "MEDIUM", "HIGH"]}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"outcome": {"const": "MODEL_APPROVED"}}},
+      "then": {
+        "properties": {
+          "basis_category": {"const": "MODEL_REVIEW_ONLY"},
+          "preserved_model_review_refs": {"type": "array", "minItems": 1},
+          "evidence_source_ids": {"type": "array", "minItems": 1},
+          "resulting_epistemic_status": {
+            "enum": ["SUPPORTED", "CONTRADICTED", "DISPUTED", "UNRESOLVED"]
+          },
+          "resulting_confidence": {"enum": ["LOW", "MEDIUM", "HIGH"]}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {"enum": ["NEEDS_MORE_EVIDENCE", "EXCLUDED"]}
+        }
+      },
+      "then": {
+        "properties": {
+          "resulting_epistemic_status": {"type": "null"},
+          "resulting_confidence": {"type": "null"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "temporal_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "precision"],
+      "properties": {
+        "value": {"type": "string", "minLength": 1},
+        "precision": {"enum": ["DATE", "DATETIME"]}
+      }
+    }
+  }
+}

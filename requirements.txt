@@ -1,0 +1,21 @@
+# ── Core GCP Stack ────────────────────────────────────────────────────────────
+google-genai>=0.4.0
+google-cloud-bigquery>=3.20.0
+google-cloud-storage>=2.15.0
+
+# ── UI & Visualization ────────────────────────────────────────────────────────
+streamlit>=1.35.0
+plotly>=5.22.0
+
+# ── Data Contracts & Config ───────────────────────────────────────────────────
+pydantic>=2.7.0
+python-dotenv>=1.0.1
+jsonschema>=4.0.0
+
+# ── Ingestion & Parsing ───────────────────────────────────────────────────────
+feedparser>=6.0.11
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+
+# ── Analysis tables and dashboards ───────────────────────────────────────────
+pandas>=2.2.0

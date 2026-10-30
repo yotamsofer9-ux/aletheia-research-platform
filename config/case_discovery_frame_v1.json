@@ -1,0 +1,70 @@
+{
+  "frame_version": "october-war-temporal-frame-v1",
+  "methodology_version": "case-generator-contract-v1.0",
+  "description_he": "מסגרת גילוי קבועה לפי שישה חלונות זמן שווים בקירוב. אותם מונחי מלחמה רחבים מופעלים בכל חלון, ללא שימוש בציוני תקשורת או בתוצאה הצפויה של קייס.",
+  "max_leads_per_provider_per_window": 120,
+  "max_clusters_per_window_for_annotation": 2,
+  "max_total_model_annotations": 8,
+  "max_leads_per_annotation": 15,
+  "max_seed_verification_queries_per_window": 3,
+  "terms": {
+    "he": [
+      "מלחמת 7 באוקטובר",
+      "ישראל עזה",
+      "ישראל חמאס",
+      "ישראל חיזבאללה",
+      "ישראל איראן",
+      "ישראל חות'ים",
+      "חטופים הפסקת אש",
+      "סיוע הומניטרי עזה"
+    ],
+    "en": [
+      "October 7 war",
+      "Israel Gaza",
+      "Israel Hamas",
+      "Israel Hezbollah",
+      "Israel Iran",
+      "Israel Houthis",
+      "hostages ceasefire",
+      "Gaza humanitarian aid"
+    ],
+    "ar": [
+      "حرب السابع من أكتوبر",
+      "إسرائيل غزة",
+      "إسرائيل حماس",
+      "إسرائيل حزب الله",
+      "إسرائيل إيران",
+      "إسرائيل الحوثيين",
+      "الرهائن وقف إطلاق النار",
+      "المساعدات الإنسانية غزة"
+    ]
+  },
+  "entity_aliases": {
+    "israel": ["ישראל", "Israel", "إسرائيل"],
+    "gaza": ["עזה", "Gaza", "غزة"],
+    "hamas": ["חמאס", "Hamas", "حماس"],
+    "hezbollah": ["חיזבאללה", "Hezbollah", "حزب الله"],
+    "iran": ["איראן", "Iran", "إيران"],
+    "houthis": ["חות'ים", "חות׳ים", "Houthis", "الحوثيين"],
+    "hostages": ["חטופים", "hostages", "الرهائن"],
+    "ceasefire": ["הפסקת אש", "ceasefire", "وقف إطلاق النار"],
+    "humanitarian_aid": ["סיוע הומניטרי", "humanitarian aid", "المساعدات الإنسانية"],
+    "us_diplomacy": ["ארצות הברית", "ארה״ב", "ביידן", "בלינקן", "United States", "Biden", "Blinken", "الولايات المتحدة", "بايدن", "بلينكن"],
+    "netanyahu": ["נתניהו", "Netanyahu", "نتنياهو"],
+    "idf": ["צה״ל", "צבא ישראל", "IDF", "Israeli military", "الجيش الإسرائيلي"],
+    "united_nations": ["האו״ם", "האומות המאוחדות", "United Nations", "الأمم المتحدة"],
+    "rafah": ["רפיח", "Rafah", "رفح"],
+    "lebanon": ["לבנון", "Lebanon", "لبنان"],
+    "syria": ["סוריה", "Syria", "سوريا"],
+    "icj": ["בית הדין הבינלאומי לצדק", "ICJ", "محكمة العدل الدولية"],
+    "icc": ["בית הדין הפלילי הבינלאומי", "ICC", "المحكمة الجنائية الدولية"]
+  },
+  "windows": [
+    {"query_id": "WAR-2023H2-2024Q1", "topic_tag": "war-period-01", "window_start": "2023-10-07", "window_end": "2024-03-31"},
+    {"query_id": "WAR-2024Q2Q3", "topic_tag": "war-period-02", "window_start": "2024-04-01", "window_end": "2024-09-30"},
+    {"query_id": "WAR-2024Q4-2025Q1", "topic_tag": "war-period-03", "window_start": "2024-10-01", "window_end": "2025-03-31"},
+    {"query_id": "WAR-2025Q2Q3", "topic_tag": "war-period-04", "window_start": "2025-04-01", "window_end": "2025-09-30"},
+    {"query_id": "WAR-2025Q4-2026Q1", "topic_tag": "war-period-05", "window_start": "2025-10-01", "window_end": "2026-03-31"},
+    {"query_id": "WAR-2026Q2Q3", "topic_tag": "war-period-06", "window_start": "2026-04-01", "window_end": "2026-09-30"}
+  ]
+}

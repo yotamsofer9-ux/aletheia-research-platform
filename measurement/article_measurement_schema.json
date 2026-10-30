@@ -1,0 +1,264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aletheia.local/schemas/article-measurement-1.0.7.json",
+  "title": "Aletheia article measurement",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "prompt_version",
+    "case_id",
+    "document_id",
+    "language",
+    "analysis_status",
+    "dominant_frame",
+    "secondary_frames",
+    "relevant_claims",
+    "components",
+    "trajectory_component",
+    "needs_review"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.7"},
+    "prompt_version": {"const": "case001-article-analysis-v1.0.12"},
+    "case_id": {"const": "CASE-001"},
+    "document_id": {"type": "string", "minLength": 1},
+    "language": {"enum": ["he", "en", "ar"]},
+    "analysis_status": {"enum": ["COMPLETE", "NEEDS_REVIEW"]},
+    "dominant_frame": {"$ref": "#/$defs/frame"},
+    "secondary_frames": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/frame"},
+      "maxItems": 2,
+      "uniqueItems": true
+    },
+    "relevant_claims": {
+      "type": "array",
+      "maxItems": 4,
+      "items": {"$ref": "#/$defs/claim"}
+    },
+    "components": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["T1", "T2", "T3", "N1", "N2", "N3", "N4", "N5"],
+      "properties": {
+        "T1": {"$ref": "#/$defs/component_measurement"},
+        "T2": {"$ref": "#/$defs/component_measurement"},
+        "T3": {"$ref": "#/$defs/component_measurement"},
+        "N1": {"$ref": "#/$defs/component_measurement"},
+        "N2": {"$ref": "#/$defs/component_measurement"},
+        "N3": {"$ref": "#/$defs/component_measurement"},
+        "N4": {"$ref": "#/$defs/component_measurement"},
+        "N5": {"$ref": "#/$defs/component_measurement"}
+      }
+    },
+    "trajectory_component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "state", "reason"],
+      "properties": {
+        "code": {"const": "T4"},
+        "state": {"const": "PENDING_SEPARATE_TRAJECTORY_ANALYSIS"},
+        "reason": {
+          "const": "T4 is scored across a three-phase publisher slot, never from one article."
+        }
+      }
+    },
+    "needs_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "reasons", "note"],
+      "properties": {
+        "required": {"type": "boolean"},
+        "reasons": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/review_reason"},
+          "maxItems": 5,
+          "uniqueItems": true
+        },
+        "note": {"type": ["string", "null"]}
+      }
+    }
+  },
+  "$defs": {
+    "frame": {
+      "enum": [
+        "HUMANITARIAN",
+        "SECURITY",
+        "POLITICAL",
+        "INVESTIGATIVE",
+        "MEDIA_ACCOUNTABILITY",
+        "MIXED",
+        "OTHER"
+      ]
+    },
+    "review_reason": {
+      "enum": [
+        "ANCHOR_AMBIGUITY",
+        "TRANSLATION_UNCERTAINTY",
+        "SOURCE_VOICE_AMBIGUITY",
+        "EVIDENCE_SPAN_NOT_FOUND",
+        "LOW_CONFIDENCE",
+        "CONFLICTING_PASSAGES",
+        "PRIVILEGED_ACCESS_LIMITATION",
+        "OTHER"
+      ]
+    },
+    "evidence_span": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["span_id", "quote_original", "location", "reviewer_translation_he"],
+      "properties": {
+        "span_id": {"type": "string", "minLength": 1, "maxLength": 40},
+        "quote_original": {"type": "string", "minLength": 1, "maxLength": 500},
+        "location": {"enum": ["HEADLINE", "LEAD", "BODY"]},
+        "reviewer_translation_he": {"type": "null"}
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "claim_id",
+        "quote_original",
+        "location",
+        "voice",
+        "speaker",
+        "centrality",
+        "claim_kind",
+        "outlet_stance",
+        "anchor_ids",
+        "stance_toward_anchors",
+        "certainty",
+        "evidence_access",
+        "reviewer_translation_he"
+      ],
+      "properties": {
+        "claim_id": {"type": "string", "minLength": 1, "maxLength": 40},
+        "quote_original": {"type": "string", "minLength": 1, "maxLength": 500},
+        "location": {"enum": ["HEADLINE", "LEAD", "BODY"]},
+        "voice": {
+          "enum": [
+            "OUTLET_ASSERTION",
+            "ATTRIBUTED_CLAIM",
+            "DIRECT_QUOTE",
+            "DENIAL",
+            "HEDGED_INFERENCE"
+          ]
+        },
+        "speaker": {"type": ["string", "null"], "maxLength": 200},
+        "centrality": {"enum": ["CENTRAL", "CONTEXT"]},
+        "claim_kind": {
+          "enum": [
+            "CAUSE_OR_RESPONSIBILITY",
+            "CASUALTY_OR_IMPACT",
+            "EVIDENCE_OR_PROVENANCE",
+            "OTHER"
+          ]
+        },
+        "outlet_stance": {
+          "enum": ["ADOPTS", "REPORTS_ONLY", "CONTESTS", "UNCLEAR"]
+        },
+        "anchor_ids": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "maxItems": 8,
+          "uniqueItems": true
+        },
+        "stance_toward_anchors": {
+          "enum": ["ALIGNS", "CONFLICTS", "MIXED", "NOT_ASSESSABLE"]
+        },
+        "certainty": {
+          "enum": ["ASSERTED", "ATTRIBUTED", "HEDGED", "DISPUTED", "UNKNOWN"]
+        },
+        "evidence_access": {
+          "enum": [
+            "PUBLIC_BASIS",
+            "DOCUMENTED_PRIVILEGED_BASIS",
+            "ACCESS_NOT_DOCUMENTED"
+          ]
+        },
+        "reviewer_translation_he": {"type": "null"}
+      }
+    },
+    "component_measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "score",
+        "na_reason",
+        "confidence",
+        "rationale",
+        "evidence_spans",
+        "anchor_refs",
+        "needs_review_reasons"
+      ],
+      "properties": {
+        "score": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "integer", "minimum": 0, "maximum": 4}
+          ]
+        },
+        "na_reason": {
+          "oneOf": [
+            {"type": "null"},
+            {
+              "enum": [
+                "NO_RELEVANT_CLAIM",
+                "NO_ACTIVE_ANCHOR_FOR_CENTRAL_CLAIM",
+                "NO_RELEVANT_COUNTEREVIDENCE",
+                "HEADLINE_OR_LEAD_UNAVAILABLE",
+                "NOT_APPLICABLE_TO_TEXT_TYPE",
+                "OTHER"
+              ]
+            }
+          ]
+        },
+        "confidence": {
+          "oneOf": [
+            {"type": "null"},
+            {"enum": ["LOW", "MEDIUM", "HIGH"]}
+          ]
+        },
+        "rationale": {"type": "string", "minLength": 1, "maxLength": 320},
+        "evidence_spans": {
+          "type": "array",
+          "maxItems": 1,
+          "items": {"$ref": "#/$defs/evidence_span"}
+        },
+        "anchor_refs": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "maxItems": 8,
+          "uniqueItems": true
+        },
+        "needs_review_reasons": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/review_reason"},
+          "maxItems": 5,
+          "uniqueItems": true
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"score": {"type": "null"}}},
+          "then": {
+            "properties": {
+              "na_reason": {"not": {"type": "null"}},
+              "confidence": {"type": "null"},
+              "evidence_spans": {"maxItems": 0}
+            }
+          },
+          "else": {
+            "properties": {
+              "na_reason": {"type": "null"},
+              "confidence": {"enum": ["LOW", "MEDIUM", "HIGH"]},
+              "evidence_spans": {"minItems": 1}
+            }
+          }
+        }
+      ]
+    }
+  }
+}

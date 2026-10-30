@@ -1,0 +1,37 @@
+{
+  "adapter_version": "case001-ar-v6",
+  "language": "ar",
+  "shared_prompt_version": "case001-article-analysis-v1.0.12",
+  "measurement_schema": "measurement/article_measurement_schema.json",
+  "instruction": "Analyze Arabic wording directly, including attribution embedded in verbs and headline syntax. Preserve evidence spans exactly as printed and set every reviewer_translation_he field to null.",
+  "attribution_cues": [
+    "بحسب",
+    "وفق",
+    "قال",
+    "أفاد",
+    "أكد",
+    "زعم",
+    "نفى",
+    "رجح",
+    "يُعتقد",
+    "على الأرجح"
+  ],
+  "language_specific_rules": [
+    "Track the grammatical subject of verbs such as أكد, اتهم, نفى, and خلص. A strong verb remains attributed when a named actor is its subject.",
+    "A nominal headline such as 'غارة إسرائيلية على المستشفى' normally presents Israeli causation in the outlet's voice unless attribution is visible in the headline itself.",
+    "Terms such as 'الاحتلال', 'مجزرة', 'العدوان', and 'المقاومة' are framing choices. They may inform N5 or the descriptive frame but do not alone prove adoption of a specific causal claim.",
+    "Do not translate 'استهداف' automatically as a verified intentional strike; inspect whether it is outlet narration, an attributed allegation, or a quotation.",
+    "Preserve hedges such as قد, ربما, يُرجح, and على الأرجح in certainty coding.",
+    "For N5, inspect newsroom words outside quotations first; charged words spoken by a source are not positive N5 evidence unless the outlet repeats or endorses them in its own voice."
+  ],
+  "examples": [
+    {
+      "text": "قالت وزارة الصحة إن غارة إسرائيلية استهدفت المستشفى",
+      "interpretation": "ATTRIBUTED_CLAIM by the health ministry, unless the outlet independently adopts the causal statement elsewhere."
+    },
+    {
+      "text": "غارة إسرائيلية تحول المئات لجثث متفحمة",
+      "interpretation": "OUTLET_ASSERTION in an unqualified headline, with possible N4 and N5 relevance."
+    }
+  ]
+}
